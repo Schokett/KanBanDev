@@ -11,9 +11,14 @@ export const router = createBrowserRouter(
       element: <App />,
       children: [
         { index: true, element: <Board /> },
-        { path: "boardoverview", element: <BoardOverview /> },
-        { path: "board/:id", element: <Board /> },
         { path: "profile", element: <Profile /> },
+        {
+          path: "boardoverview",
+          children: [
+            { index: true, element: <BoardOverview /> },
+            { path: "board/:id", element: <Board /> },
+          ],
+        },
       ],
     },
   ],
