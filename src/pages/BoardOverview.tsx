@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Outlet } from "react-router-dom";
-import { Plus } from "lucide-react";
+import { Plus, TrashIcon } from "lucide-react";
+import { Card, CardAction, CardDescription, CardTitle } from "@/components/ui/card";
 
 function BoardOverview() {
   return (
@@ -12,6 +13,23 @@ function BoardOverview() {
           Neues Board
         </Button>
       </div>
+
+      <Card className="w-full max-w-sm flex-2 flex flex-row justify-between p-4">
+        <div className="w-full">
+          <CardTitle>Board</CardTitle>
+          <CardDescription>
+            <span className="">3 Spalten • </span>
+            <span className="">0 Tasks</span>
+          </CardDescription>
+        </div>
+        <div className="w-fit">
+          <CardAction>
+            <Button variant="link">
+              <TrashIcon />
+            </Button>
+          </CardAction>
+        </div>
+      </Card>
 
       <div className="text-center flex justify-center mt-12 sm:mt-30">
         <p className="text-slate-500 font-medium">
