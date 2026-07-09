@@ -6,7 +6,7 @@ function BoardOverview() {
   return (
     <section className="w-full max-w-300 mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col gap-2 mt-5 justify-center text-center sm:flex-row items-center sm:justify-between">
-        <h2>Meine Boards</h2>
+        <h2 className="font-bold ">Meine Boards</h2>
         <Button className={"w-fit"}>
           <Plus className="mr-2 h-4 w-4" />
           Neues Board
