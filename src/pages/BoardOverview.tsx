@@ -16,7 +16,7 @@ function BoardOverview() {
 
       <div className="gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         <Link to={`/BoardOverview/board/1`}>
-          <Card className="w-full flex-2 flex flex-row justify-between p-6 mt-5 hover:shadow-md border-2 border-slate-500">
+          <Card className="w-full flex-2 flex flex-row justify-between p-7 hover:shadow-md border border-slate-600">
             <div className="w-full">
               <CardTitle>Board</CardTitle>
               <CardDescription>
@@ -35,7 +35,7 @@ function BoardOverview() {
         </Link>
 
         <Link to={`/BoardOverview/board/1`}>
-          <Card className="w-full flex-2 flex flex-row justify-between p-6 mt-5 hover:shadow-md border border-slate-500">
+          <Card className="w-full flex-2 flex flex-row justify-between p-7 hover:shadow-md border border-slate-600">
             <div className="w-full">
               <CardTitle>Board</CardTitle>
               <CardDescription>
@@ -54,7 +54,7 @@ function BoardOverview() {
         </Link>
 
         <Link to={`/BoardOverview/board/1`}>
-          <Card className="w-full flex-2 flex flex-row justify-between p-6 mt-5 hover:shadow-md border border-slate-500">
+          <Card className="w-full flex-2 flex flex-row justify-between p-7 hover:shadow-md border border-slate-600">
             <div className="w-full">
               <CardTitle>Board</CardTitle>
               <CardDescription>
@@ -73,7 +73,7 @@ function BoardOverview() {
         </Link>
 
         <Link to={`/BoardOverview/board/1`}>
-          <Card className="w-full flex-2 flex flex-row justify-between p-6 mt-5 hover:shadow-md border border-slate-500">
+          <Card className="w-full flex-2 flex flex-row justify-between p-7 hover:shadow-md border border-slate-600">
             <div className="w-full">
               <CardTitle>Board</CardTitle>
               <CardDescription>
