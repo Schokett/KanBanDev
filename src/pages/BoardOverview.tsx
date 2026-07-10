@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { Plus, TrashIcon } from "lucide-react";
 import { Card, CardAction, CardDescription, CardTitle } from "@/components/ui/card";
 
@@ -14,26 +14,28 @@ function BoardOverview() {
         </Button>
       </div>
 
-      <section className="place-items-center lg:place-items-start">
-        <Card className="w-full max-w-sm flex-2 flex flex-row justify-between p-4 mt-5">
-          <div className="w-full">
-            <CardTitle>Board</CardTitle>
-            <CardDescription>
-              <span className="">3 Spalten • </span>
-              <span className="">0 Tasks</span>
-            </CardDescription>
-          </div>
-          <div className="w-fit">
-            <CardAction>
-              <Button variant="link">
-                <TrashIcon />
-              </Button>
-            </CardAction>
-          </div>
-        </Card>
+      <section className="place-items-center lg:place-items-start grid grid-cols-3 gap-4">
+        <Link to={`/BoardOverview/board/1`}>
+          <Card className="w-full max-w-sm flex-2 flex flex-row justify-between p-4 mt-5 hover:shadow-md border border-slate-500">
+            <div className="w-full">
+              <CardTitle>Board</CardTitle>
+              <CardDescription>
+                <span className="">3 Spalten • </span>
+                <span className="">0 Tasks</span>
+              </CardDescription>
+            </div>
+            <div className="w-fit">
+              <CardAction>
+                <Button variant="ghost">
+                  <TrashIcon />
+                </Button>
+              </CardAction>
+            </div>
+          </Card>
+        </Link>
       </section>
 
-      <div className="text-center flex justify-center mt-12 sm:mt-30">
+      <div id="noEntrys" className="text-center justify-center mt-12 sm:mt-30 hidden">
         <p className="text-slate-500 font-medium">
           Noch keine Boards vorhanden. <br />
           <span className="font-normal">Erstelle dein erstes Board, um loszulegen!</span>
