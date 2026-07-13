@@ -53,7 +53,7 @@ function Board() {
                 <Plus />
               </Button>
             </CardHeader>
-            <CardFooter className="flex bg-transparent border-slate-500 place-content-center">
+            <CardFooter className="flex p-2 bg-transparent border-slate-500 place-content-center">
               <div className="flex w-full border border-slate-800 rounded-lg p-2 gap-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
