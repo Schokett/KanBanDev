@@ -53,8 +53,8 @@ function Board() {
                 <Plus />
               </Button>
             </CardHeader>
-            <CardFooter className="flex p-2 bg-transparent border-slate-500 place-content-center">
-              <div className="flex w-full border border-slate-800 rounded-lg p-2 gap-1">
+            <CardFooter className="flex p-2 bg-transparent border-slate-500">
+              <div className="flex w-full border justify-between border-slate-800 rounded-lg p-2 gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -73,9 +73,9 @@ function Board() {
                   <circle cx="15" cy="5" r="1" />
                   <circle cx="15" cy="19" r="1" />
                 </svg>
-                <div>
+                <div className="w-full">
                   <h4 className="font-semibold">Überschrift</h4>
-                  <p className="text-center line-clamp-2">Tasks vorhanden</p>
+                  <p className="line-clamp-2">Tasks vorhanden</p>
                 </div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
