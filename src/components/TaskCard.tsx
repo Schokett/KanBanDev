@@ -25,9 +25,9 @@ function TasksCard({ status, title, tasks, onDrop }: Props) {
         onDrop={(e) => onDrop(e.dataTransfer.getData("tasksId"), status)}
         className="py-0 gap-0 mx-auto w-full max-w-xs border border-slate-500">
         <CardHeader className=" py-3 flex justify-between items-center">
-          <CardTitle className="font-semibold">
+          <CardTitle className="font-semibold flex gap-2">
             {title}
-            <span className="text-slate-500 text-xs font-medium">{tasks.length}</span>
+            <span className="text-slate-500 text-sx font-normal">{tasks.length}</span>
           </CardTitle>
           <Button variant="ghost">
             <Plus />
