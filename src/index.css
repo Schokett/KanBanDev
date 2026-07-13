@@ -18,7 +18,6 @@
       "Helvetica Neue",
       sans-serif;
     margin: 0;
-    box-sizing: border-box;
   }
 }
 @custom-variant dark (&:is(.dark *));

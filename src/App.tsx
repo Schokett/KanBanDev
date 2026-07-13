@@ -5,7 +5,7 @@ import { Button } from "@base-ui/react";
 function App() {
   return (
     <>
-      <div className=" border bg-black h-20 flex justify-between items-center p-5">
+      <div className="bg-black h-20 flex justify-between items-center p-5">
         <h1 className="text-cyan-300 font-bold text-xl flex gap-2 items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
