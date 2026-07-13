@@ -23,7 +23,7 @@ function TasksCard({ status, title, tasks, onDrop }: Props) {
       <Card
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => onDrop(e.dataTransfer.getData("tasksId"), status)}
-        className="py-0 gap-0 mx-auto w-full max-w-xs border border-slate-500">
+        className="bg-transparent py-0 gap-0 mx-auto w-full max-w-xs border border-slate-500">
         <CardHeader className=" py-3 flex justify-between items-center">
           <CardTitle className="font-semibold flex gap-2">
             {title}

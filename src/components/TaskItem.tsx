@@ -13,7 +13,7 @@ function TasksItem({ title, task, status, draggable, onDragStart }: Task) {
         id={status}
         draggable={draggable}
         onDragStart={onDragStart}
-        className="cursor-grab flex w-full border justify-between border-slate-800 rounded-lg p-2 gap-2">
+        className="bg-white  cursor-grab flex w-full border justify-between border-slate-800 rounded-lg p-2 gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
