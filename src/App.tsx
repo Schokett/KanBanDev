@@ -7,7 +7,7 @@ function App() {
     <>
       <div className="bg-black h-20 flex justify-between items-center p-5">
         <Link to={`/boardoverview`}>
-          <h1 className="text-cyan-300 font-bold text-xl flex gap-2 items-center">
+          <h1 className="cursor-pointer text-cyan-300 font-bold text-xl flex gap-2 items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -27,10 +27,12 @@ function App() {
             KanBanDev
           </h1>
         </Link>
-        <Button className="text-center items-center flex text-slate-100 gap-2">
-          <CircleUserRound className="text-gray-400" stroke-width="2" size={20} />
-          Nutzer
-        </Button>
+        <Link to={`/profile`}>
+          <Button className="cursor-pointer text-center items-center flex text-slate-100 gap-2">
+            <CircleUserRound className="text-gray-400" stroke-width="2" size={20} />
+            Nutzer
+          </Button>
+        </Link>
       </div>
       <main className="p-4 mx-auto">
         <Outlet />
