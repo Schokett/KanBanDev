@@ -19,7 +19,7 @@ function Board() {
             </Button>
           </Link>
           <Input
-            className={`font-bold text-2xl p-1 px-3 field-sizing-content ${isEditing ? "border-2 border-cyan-400 rounded-lg" : ""}`}
+            className={`font-bold text-2xl p-1 px-3 field-sizing-content ${isEditing ? "border-2 border-cyan-400 rounded-lg" : "outline-none focus:ring-0"}`}
             value={boardName}
             onChange={(e) => setBoardName(e.target.value)}
             readOnly={!isEditing}
