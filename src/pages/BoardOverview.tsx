@@ -13,15 +13,18 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import boardReducer from "@/hooks/boardReducer";
-import type { Board } from "@/types/board.type";
+import { getBoards, saveBoards } from "@/lib/api";
 
 function BoardOverview() {
   const [name, setName] = useState("");
-  const initialBoards: Board[] = [];
 
-  const [boards, dispatch] = useReducer(boardReducer, initialBoards);
+  const [boards, dispatch] = useReducer(boardReducer, getBoards());
+
+  useEffect(() => {
+    saveBoards(boards);
+  }, [boards]);
 
   return (
     <section className="w-full max-w-300 gap-4 flex flex-col ">
@@ -47,23 +50,25 @@ function BoardOverview() {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-            <DialogFooter>
-              <DialogClose className={"flex gap-2"}>
-                <Button variant="outline" onClick={() => setName("")}>
-                  Abbrechen
-                </Button>
-                <Button
-                  onClick={() => {
-                    dispatch({
-                      type: "ADD",
-                      data: { id: crypto.randomUUID(), name, columns: 3, tasks: 0 },
-                    });
-                    setName("");
-                  }}>
-                  Speichern
-                </Button>
+            <div className="flex gap-2 justify-end">
+              <DialogClose render={<Button variant="outline" onClick={() => setName("")} />}>
+                Abbrechen
               </DialogClose>
-            </DialogFooter>
+              <DialogClose
+                render={
+                  <Button
+                    onClick={() => {
+                      dispatch({
+                        type: "ADD",
+                        data: { id: crypto.randomUUID(), name, columns: 3, tasks: 0 },
+                      });
+                      setName("");
+                    }}
+                  />
+                }>
+                Speichern
+              </DialogClose>
+            </div>
           </DialogContent>
         </Dialog>
       </div>
@@ -81,13 +86,13 @@ function BoardOverview() {
               </div>
               <div className="w-fit">
                 <CardAction>
-                  <Button variant="ghost">
-                    <TrashIcon
-                      onClick={(e) => {
-                        e.preventDefault();
-                        dispatch({ type: "DELETE", data: { id: b.id } });
-                      }}
-                    />
+                  <Button
+                    variant="ghost"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      dispatch({ type: "DELETE", data: { id: b.id } });
+                    }}>
+                    <TrashIcon />
                   </Button>
                 </CardAction>
               </div>
