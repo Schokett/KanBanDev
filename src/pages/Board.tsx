@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Check, Edit2 } from "lucide-react";
+import { ArrowLeft, Check, Edit2, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -7,7 +7,8 @@ import TasksCard from "@/components/TaskCard";
 import type { Task } from "@/components/TaskCard";
 
 function Board() {
-  const [boardName, setBoardName] = useState("Test");
+  const [boardName, setBoardName] = useState("Board");
+  const [previousName, setPreviousName] = useState("");
   const [isEditing, setIsEditing] = useState<Boolean>(false);
   const [tasks, setTasks] = useState<Task[]>([
     { id: "1", title: "Flur", task: "Wischen", status: "todo" },
@@ -23,6 +24,17 @@ function Board() {
     { id: "6", title: "Flur", task: "Wischen", status: "done" },
   ]);
 
+  const startEditing = () => {
+    setPreviousName(boardName);
+    setIsEditing(true);
+  };
+  const confirmEditing = () => setIsEditing(false);
+
+  const cancelEditing = () => {
+    setBoardName(previousName);
+    setIsEditing(false);
+  };
+
   const handleDrop = (id: string, status: Task["status"]) =>
     setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, status } : t)));
 
@@ -36,7 +48,11 @@ function Board() {
             </Button>
           </Link>
           <Input
-            className={`font-bold text-2xl p-1 px-3 field-sizing-content ${isEditing ? "border-2 border-cyan-400 rounded-lg" : "outline-none focus:ring-0"}`}
+            className={`font-bold text-2xl md:text-2xl border-none p-1 px-3 w-fit field-sizing-content ${
+              isEditing
+                ? "border-2 border-cyan-400 rounded-lg ring-2 ring-cyan-400/50"
+                : "outline-none focus-visible:ring-0 focus-visible:border-input"
+            }`}
             value={boardName}
             onChange={(e) => setBoardName(e.target.value)}
             readOnly={!isEditing}
@@ -45,13 +61,20 @@ function Board() {
               if (e.key === "Enter") setIsEditing(false);
             }}
           />
-          <Button
-            className={"flex items-center gap-2"}
-            variant={"ghost"}
-            size="icon-lg"
-            onClick={() => setIsEditing((prev) => !prev)}>
-            {isEditing ? <Check /> : <Edit2 />}
-          </Button>
+          {isEditing ? (
+            <>
+              <Button variant="ghost" size="icon-lg" onClick={confirmEditing}>
+                <Check />
+              </Button>
+              <Button variant="ghost" size="icon-lg" onClick={cancelEditing}>
+                <X />
+              </Button>
+            </>
+          ) : (
+            <Button variant="ghost" size="icon-lg" onClick={startEditing}>
+              <Edit2 />
+            </Button>
+          )}
         </div>
 
         <div className="mt-5 w-full flex gap-5">
