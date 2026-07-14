@@ -1,8 +1,21 @@
 import { Link, Outlet } from "react-router-dom";
 import { CircleUserRound } from "lucide-react";
 import { Button } from "@base-ui/react";
+import { useState, useEffect } from "react";
 
 function App() {
+  const [name, setName] = useState(() => localStorage.getItem("username") ?? "");
+
+  useEffect(() => {
+    const syncName = () => setName(localStorage.getItem("username") ?? "");
+
+    window.addEventListener("storage", syncName); // andere Tabs
+    window.addEventListener("username-changed", syncName); // gleicher Tab
+    return () => {
+      window.removeEventListener("storage", syncName);
+      window.removeEventListener("username-changed", syncName);
+    };
+  }, []);
   return (
     <>
       <div className="bg-black h-20 flex justify-between items-center p-5">
@@ -30,7 +43,7 @@ function App() {
         <Link to={`/profile`}>
           <Button className="cursor-pointer text-center items-center flex text-slate-100 gap-2">
             <CircleUserRound className="text-gray-400" stroke-width="2" size={20} />
-            Nutzer
+            {name}
           </Button>
         </Link>
       </div>
