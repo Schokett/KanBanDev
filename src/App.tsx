@@ -4,7 +4,7 @@ import { Button } from "@base-ui/react";
 import { useState, useEffect } from "react";
 
 function App() {
-  const [name, setName] = useState(() => localStorage.getItem("username") ?? "");
+  const [name, setName] = useState(() => localStorage.getItem("username") ?? "Nutzer");
 
   useEffect(() => {
     const syncName = () => setName(localStorage.getItem("username") ?? "");
