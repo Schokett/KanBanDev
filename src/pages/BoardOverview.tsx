@@ -10,7 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogClose,
-  DialogFooter,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useEffect, useReducer, useState } from "react";
