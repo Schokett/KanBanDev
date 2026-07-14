@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Check, Edit2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Input } from "@base-ui/react";
+import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import TasksCard from "@/components/TaskCard";
 import type { Task } from "@/components/TaskCard";
