@@ -14,7 +14,7 @@ interface Props {
   status: "todo" | "inprogress" | "done";
   title: string;
   tasks: Task[];
-  onDrop: (id: string, status: string) => void;
+  onDrop: (id: string, status: Task["status"]) => void;
 }
 
 function TasksCard({ status, title, tasks, onDrop }: Props) {
