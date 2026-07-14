@@ -68,6 +68,10 @@ function isValidDate(date: Date | undefined) {
   return !isNaN(date.getTime());
 }
 
+function handleCreate() {
+  console.log("Next Time");
+}
+
 function TasksCard({ status, title, tasks, onDrop }: Props) {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(new Date("2025-06-01"));
@@ -176,6 +180,10 @@ function TasksCard({ status, title, tasks, onDrop }: Props) {
                   </Popover>
                 </InputGroupAddon>
               </InputGroup>
+              <div className="flex gap-2 justify-end">
+                <DialogClose render={<Button variant="ghost" />}>Abbrechen</DialogClose>
+                <DialogClose render={<Button onClick={handleCreate} />}>Speichern</DialogClose>
+              </div>
             </DialogContent>
           </Dialog>
         </CardHeader>
