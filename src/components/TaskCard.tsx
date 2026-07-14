@@ -1,9 +1,9 @@
-import { Button } from "@base-ui/react";
+import { Button } from "./ui/button";
 import { Card, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { Plus } from "lucide-react";
 import TasksItem from "./TaskItem";
 
-type Task = {
+export type Task = {
   id: string;
   title: string;
   task: string;
