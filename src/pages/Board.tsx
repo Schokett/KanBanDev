@@ -2,32 +2,47 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Check, Edit2, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TasksCard from "@/components/TaskCard";
 import type { Task } from "@/components/TaskCard";
+
+const TASKS_STORAGE_KEY = "tasks";
+
+const mockTasks: Task[] = [
+  {
+    id: "1",
+    title: "Flur",
+    task: "Wischen",
+    person: "Nutzer",
+    deadline: new Date("7.5.2011"),
+    status: "todo",
+  },
+  {
+    id: "2",
+    title: "Flur",
+    task: "Wischen",
+    person: "Nutzer",
+    deadline: new Date("8.2.2011"),
+    status: "inprogress",
+  },
+];
+
+function loadTasks(): Task[] {
+  const stored = localStorage.getItem(TASKS_STORAGE_KEY);
+  if (!stored) return mockTasks;
+  const parsed: Task[] = JSON.parse(stored);
+  return parsed.map((t) => ({ ...t, deadline: new Date(t.deadline) }));
+}
 
 function Board() {
   const [boardName, setBoardName] = useState("Board");
   const [previousName, setPreviousName] = useState("");
   const [isEditing, setIsEditing] = useState<Boolean>(false);
-  const [tasks, setTasks] = useState<Task[]>([
-    {
-      id: "1",
-      title: "Flur",
-      task: "Wischen",
-      person: "Nutzer",
-      deadline: new Date("7.5.2011"),
-      status: "todo",
-    },
-    {
-      id: "2",
-      title: "Flur",
-      task: "Wischen",
-      person: "Nutzer",
-      deadline: new Date("8.2.2011"),
-      status: "inprogress",
-    },
-  ]);
+  const [tasks, setTasks] = useState<Task[]>(loadTasks);
+
+  useEffect(() => {
+    localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(tasks));
+  }, [tasks]);
 
   const startEditing = () => {
     setPreviousName(boardName);

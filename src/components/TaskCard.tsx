@@ -79,10 +79,10 @@ function TasksCard({ status, title, tasks, onDrop }: Props) {
   const [month, setMonth] = React.useState<Date | undefined>(new Date());
   const [value, setValue] = React.useState("");
 
-  const person = localStorage.getItem("username") ?? "Gast";
+  const personSelect = localStorage.getItem("username") ?? "Gast";
   const assignees: Person[] = [
     { label: "Niemand", value: "Niemand" },
-    { label: person, value: person },
+    { label: personSelect, value: personSelect },
   ];
 
   return (
@@ -112,7 +112,7 @@ function TasksCard({ status, title, tasks, onDrop }: Props) {
               <FieldLabel htmlFor="input-field-username">Beschreibung</FieldLabel>
               <Input id="newBoard" placeholder="Was soll erledigt werden?" />
               <FieldLabel htmlFor="input-field-username">Zugewiesen an</FieldLabel>
-              <Select items={assignees} defaultValue={person}>
+              <Select items={assignees} defaultValue={personSelect}>
                 <SelectTrigger className="w-full" id="form-board">
                   <SelectValue />
                 </SelectTrigger>
