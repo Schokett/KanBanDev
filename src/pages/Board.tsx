@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Check, Edit2, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import TasksCard from "@/components/TaskCard";
 import type { Task } from "@/components/TaskCard";
+import { getBoards } from "@/lib/api";
+import type { Board } from "@/types/board.type";
 
 const TASKS_STORAGE_KEY = "tasks";
 
@@ -34,15 +36,18 @@ function loadTasks(): Task[] {
   return parsed.map((t) => ({ ...t, deadline: new Date(t.deadline) }));
 }
 
-function Board() {
+function BoardDetail() {
   const [boardName, setBoardName] = useState("Board");
   const [previousName, setPreviousName] = useState("");
   const [isEditing, setIsEditing] = useState<Boolean>(false);
-  const [tasks, setTasks] = useState<Task[]>(loadTasks);
-
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [board, setBoard] = useState<Board>({ id: "", name: "", tasks: [], columns: 3 });
+  const { id } = useParams();
   useEffect(() => {
-    localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(tasks));
-  }, [tasks]);
+    const boards = getBoards();
+    const currentBoard = boards.find((board) => board.id === id);
+    if (currentBoard) setBoard(currentBoard);
+  }, []);
 
   const startEditing = () => {
     setPreviousName(boardName);
@@ -101,19 +106,19 @@ function Board() {
           <TasksCard
             status="todo"
             title="To Do"
-            tasks={tasks.filter((t) => t.status === "todo")}
+            tasks={board.tasks.filter((t) => t.status === "todo")}
             onDrop={handleDrop}
           />
           <TasksCard
             status="inprogress"
             title="In Progress"
-            tasks={tasks.filter((t) => t.status === "inprogress")}
+            tasks={board.tasks.filter((t) => t.status === "inprogress")}
             onDrop={handleDrop}
           />
           <TasksCard
             status="done"
             title="Done"
-            tasks={tasks.filter((t) => t.status === "done")}
+            tasks={board.tasks.filter((t) => t.status === "done")}
             onDrop={handleDrop}
           />
         </div>
@@ -121,4 +126,4 @@ function Board() {
     </div>
   );
 }
-export default Board;
+export default BoardDetail;

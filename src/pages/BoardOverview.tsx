@@ -59,7 +59,7 @@ function BoardOverview() {
                     onClick={() => {
                       dispatch({
                         type: "ADD",
-                        data: { id: crypto.randomUUID(), name, columns: 3, tasks: 0 },
+                        data: { id: crypto.randomUUID(), name, columns: 3, tasks: [] },
                       });
                       setName("");
                     }}
@@ -80,7 +80,7 @@ function BoardOverview() {
                 <CardTitle>{b.name}</CardTitle>
                 <CardDescription>
                   <span className="">{b.columns} Spalten • </span>
-                  <span className="">{b.tasks} Tasks</span>
+                  <span className="">{b.tasks.length} Tasks</span>
                 </CardDescription>
               </div>
               <div className="w-fit">

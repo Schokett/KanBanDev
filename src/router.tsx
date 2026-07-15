@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import Board from "./pages/Board";
+import BoardDetail from "./pages/Board";
 import Profile from "./pages/Profile";
 import BoardOverview from "./pages/BoardOverview";
 
@@ -16,7 +16,7 @@ export const router = createBrowserRouter(
           path: "boardoverview",
           children: [
             { index: true, element: <BoardOverview /> },
-            { path: "board/:id", element: <Board /> },
+            { path: "board/:id", element: <BoardDetail /> },
           ],
         },
       ],
