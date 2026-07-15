@@ -1,10 +1,9 @@
 import { Button } from "./ui/button";
 import * as React from "react";
 import { Card, CardFooter, CardHeader, CardTitle } from "./ui/card";
-import { Plus } from "lucide-react";
 import TasksItem from "./TaskItem";
 import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Plus } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   InputGroup,
@@ -45,9 +44,8 @@ interface Props {
   tasks: Task[];
   onDrop: (id: string, status: Task["status"]) => void;
 }
-type Status = {
+type Person = {
   label: string;
-  value: string;
 };
 
 function formatDate(date: Date | undefined) {
@@ -78,11 +76,8 @@ function TasksCard({ status, title, tasks, onDrop }: Props) {
   const [month, setMonth] = React.useState<Date | undefined>(date);
   const [value, setValue] = React.useState(formatDate(date));
 
-  const statuses: Status[] = [
-    { label: "To Do", value: "todo" },
-    { label: "In Progress", value: "inprogress" },
-    { label: "Done", value: "done" },
-  ];
+  const person = localStorage.getItem("username") ?? "Gast";
+  const assignees: Person[] = [{ label: "Niemand" }, { label: person }];
 
   return (
     <>
@@ -111,13 +106,13 @@ function TasksCard({ status, title, tasks, onDrop }: Props) {
               <FieldLabel htmlFor="input-field-username">Beschreibung</FieldLabel>
               <Input id="newBoard" placeholder="Was soll erledigt werden?" />
               <FieldLabel htmlFor="input-field-username">Zugewiesen an</FieldLabel>
-              <Select items={statuses} defaultValue="Niemand">
+              <Select items={assignees} defaultValue={person}>
                 <SelectTrigger className="w-full" id="form-board">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    {statuses.map((board) => (
+                    {assignees.map((board) => (
                       <SelectItem key={board.label} value={board.label}>
                         {board.label}
                       </SelectItem>
