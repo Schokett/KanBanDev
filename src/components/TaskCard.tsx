@@ -48,6 +48,7 @@ interface Props {
 }
 type Person = {
   label: string;
+  value: string;
 };
 
 function formatDate(date: Date | undefined) {
@@ -79,7 +80,10 @@ function TasksCard({ status, title, tasks, onDrop }: Props) {
   const [value, setValue] = React.useState(formatDate(date));
 
   const person = localStorage.getItem("username") ?? "Gast";
-  const assignees: Person[] = [{ label: "Niemand" }, { label: person }];
+  const assignees: Person[] = [
+    { label: "Niemand", value: "Niemand" },
+    { label: person, value: person },
+  ];
 
   return (
     <>
