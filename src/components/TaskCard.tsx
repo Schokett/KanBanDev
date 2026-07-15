@@ -75,9 +75,9 @@ function handleCreate() {
 
 function TasksCard({ status, title, tasks, onDrop }: Props) {
   const [open, setOpen] = React.useState(false);
-  const [date, setDate] = React.useState<Date | undefined>(new Date("2025-06-01"));
-  const [month, setMonth] = React.useState<Date | undefined>(date);
-  const [value, setValue] = React.useState(formatDate(date));
+  const [date, setDate] = React.useState<Date | undefined>(undefined);
+  const [month, setMonth] = React.useState<Date | undefined>(new Date());
+  const [value, setValue] = React.useState("");
 
   const person = localStorage.getItem("username") ?? "Gast";
   const assignees: Person[] = [
@@ -131,7 +131,7 @@ function TasksCard({ status, title, tasks, onDrop }: Props) {
                 <InputGroupInput
                   id="date-required"
                   value={value}
-                  placeholder="June 01, 2025"
+                  placeholder={formatDate(new Date())}
                   onChange={(e) => {
                     const date = new Date(e.target.value);
                     setValue(e.target.value);
