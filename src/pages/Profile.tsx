@@ -2,10 +2,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Profile() {
   const [name, setname] = useState(() => localStorage.getItem("username") ?? "");
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    if (!saved) return;
+    const timer = setTimeout(() => setSaved(false), 2000);
+    return () => clearTimeout(timer);
+  }, [saved]);
 
   return (
     <div className="w-full max-w-sm m-auto">
@@ -33,15 +40,19 @@ function Profile() {
               </div>
             </div>
           </form>
-          <Button
-            type="submit"
-            onClick={() => {
-              localStorage.setItem("username", name);
-              window.dispatchEvent(new Event("username-changed"));
-            }}
-            className="cursor-pointer bg-cyan-400 max-w-fit py-2 px-3 font-semibold rounded-md">
-            Speichern
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              type="submit"
+              onClick={() => {
+                localStorage.setItem("username", name);
+                window.dispatchEvent(new Event("username-changed"));
+                setSaved(true);
+              }}
+              className="cursor-pointer bg-cyan-400  text-slate-800 max-w-fit py-2 px-3 font-semibold rounded-md ">
+              Speichern
+            </Button>
+            {saved === true && <p className="text-green-600 place-content-center">Gespeichert!</p>}
+          </div>
         </CardContent>
       </Card>
     </div>

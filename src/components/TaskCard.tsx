@@ -35,6 +35,8 @@ export type Task = {
   id: string;
   title: string;
   task: string;
+  person: string;
+  deadline: Date;
   status: "todo" | "inprogress" | "done";
 };
 

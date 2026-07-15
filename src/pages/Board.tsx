@@ -11,17 +11,22 @@ function Board() {
   const [previousName, setPreviousName] = useState("");
   const [isEditing, setIsEditing] = useState<Boolean>(false);
   const [tasks, setTasks] = useState<Task[]>([
-    { id: "1", title: "Flur", task: "Wischen", status: "todo" },
-    { id: "2", title: "Flur", task: "Wischen", status: "todo" },
     {
-      id: "3",
-      title: "Flurssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
-      task: "Wischensssssssssssssssssssssssssssssssssssssssssssssssssss",
+      id: "1",
+      title: "Flur",
+      task: "Wischen",
+      person: "Nutzer",
+      deadline: new Date("7.5.2011"),
+      status: "todo",
+    },
+    {
+      id: "2",
+      title: "Flur",
+      task: "Wischen",
+      person: "Nutzer",
+      deadline: new Date("8.2.2011"),
       status: "inprogress",
     },
-    { id: "4", title: "Flur", task: "Wischen", status: "inprogress" },
-    { id: "5", title: "Flur", task: "Wischen", status: "done" },
-    { id: "6", title: "Flur", task: "Wischen", status: "done" },
   ]);
 
   const startEditing = () => {

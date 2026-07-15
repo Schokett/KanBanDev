@@ -1,12 +1,16 @@
+import { Calendar, CircleUserRound } from "lucide-react";
+
 interface Task {
   title: string;
   task: string;
+  person: string;
+  deadline: Date;
   status: string;
   draggable?: boolean;
   onDragStart?: (e: React.DragEvent<HTMLDivElement>) => void;
 }
 
-function TasksItem({ title, task, status, draggable, onDragStart }: Task) {
+function TasksItem({ title, task, person, deadline, status, draggable, onDragStart }: Task) {
   return (
     <>
       <div
@@ -32,9 +36,19 @@ function TasksItem({ title, task, status, draggable, onDragStart }: Task) {
           <circle cx="15" cy="5" r="1" />
           <circle cx="15" cy="19" r="1" />
         </svg>
-        <div className="w-full min-w-0">
-          <h4 className="text-ellipsis line-clamp-2 font-semibold">{title}</h4>
-          <p className="text-ellipsis line-clamp-2">{task}</p>
+        <div className="w-full min-w-0 gap-1 flex flex-col text-xs">
+          <h4 className="text-ellipsis line-clamp-2 font-semibold items-center">{title}</h4>
+          <p className="text-ellipsis line-clamp-2 items-center text-slate-500">{task}</p>
+          <div className="flex gap-1 text-slate-500 w-full h-auto items-center">
+            <CircleUserRound className="size-3" />
+            <p className="text-ellipsis line-clamp-2">{person}</p>
+          </div>
+          <div className="flex gap-1 text-slate-500 w-full h-auto items-center">
+            <Calendar className="text-red-400 size-3" />
+            <p className="text-ellipsis line-clamp-2 text-red-400">
+              {deadline.toLocaleDateString("de-DE")}
+            </p>
+          </div>
         </div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
