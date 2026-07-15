@@ -29,12 +29,12 @@ const mockTasks: Task[] = [
   },
 ];
 
-function loadTasks(): Task[] {
-  const stored = localStorage.getItem(TASKS_STORAGE_KEY);
-  if (!stored) return mockTasks;
-  const parsed: Task[] = JSON.parse(stored);
-  return parsed.map((t) => ({ ...t, deadline: new Date(t.deadline) }));
-}
+// function loadTasks(): Task[] {
+//   const stored = localStorage.getItem(TASKS_STORAGE_KEY);
+//   if (!stored) return mockTasks;
+//   const parsed: Task[] = JSON.parse(stored);
+//   return parsed.map((t) => ({ ...t, deadline: new Date(t.deadline) }));
+// }
 
 function BoardDetail() {
   const [boardName, setBoardName] = useState("Board");
