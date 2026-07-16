@@ -1,12 +1,23 @@
-import { Calendar, CircleUserRound } from "lucide-react";
+import { Calendar, CircleUserRound, Pointer } from "lucide-react";
 import type { Task } from "./TaskCard";
+import { Button } from "@base-ui/react";
 
 interface Props extends Pick<Task, "title" | "task" | "person" | "deadline" | "status"> {
   draggable?: boolean;
   onDragStart?: (e: React.DragEvent<HTMLDivElement>) => void;
+  onDelete?: () => void;
 }
 
-function TasksItem({ title, task, person, deadline, status, draggable, onDragStart }: Props) {
+function TasksItem({
+  title,
+  task,
+  person,
+  deadline,
+  status,
+  draggable,
+  onDragStart,
+  onDelete,
+}: Props) {
   return (
     <>
       <div
@@ -46,23 +57,25 @@ function TasksItem({ title, task, person, deadline, status, draggable, onDragSta
             </p>
           </div>
         </div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          className="lucide lucide-trash2-icon lucide-trash-2 shrink-0">
-          <path d="M10 11v6" />
-          <path d="M14 11v6" />
-          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-          <path d="M3 6h18" />
-          <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-        </svg>
+        <Button className={"cursor-pointer"} onClick={onDelete} draggable={false}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            className="lucide lucide-trash2-icon lucide-trash-2 shrink-0">
+            <path d="M10 11v6" />
+            <path d="M14 11v6" />
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+            <path d="M3 6h18" />
+            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+          </svg>
+        </Button>
       </div>
     </>
   );

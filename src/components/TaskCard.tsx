@@ -46,6 +46,7 @@ interface Props {
   tasks: Task[];
   onDrop: (id: string, status: Task["status"]) => void;
   onCreate: (task: Task) => void;
+  onDelete: (id: string) => void;
 }
 type Person = {
   label: string;
@@ -70,7 +71,7 @@ function isValidDate(date: Date | undefined) {
   return !isNaN(date.getTime());
 }
 
-function TasksCard({ status, title, tasks, onDrop, onCreate }: Props) {
+function TasksCard({ status, title, tasks, onDrop, onCreate, onDelete }: Props) {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [month, setMonth] = React.useState<Date | undefined>(new Date());
@@ -248,6 +249,7 @@ function TasksCard({ status, title, tasks, onDrop, onCreate }: Props) {
               {...t}
               draggable={true}
               onDragStart={(e) => e.dataTransfer.setData("tasksId", t.id)}
+              onDelete={() => onDelete(t.id)}
             />
           ))}
         </CardFooter>
