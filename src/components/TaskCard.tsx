@@ -17,7 +17,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -47,6 +46,7 @@ interface Props {
   tasks: Task[];
   onDrop: (id: string, status: Task["status"]) => void;
   onCreate: (task: Task) => void;
+  onUpdate: (task: Task) => void;
   onDelete: (id: string) => void;
 }
 type Person = {
@@ -72,8 +72,10 @@ function isValidDate(date: Date | undefined) {
   return !isNaN(date.getTime());
 }
 
-function TasksCard({ status, title, tasks, onDrop, onCreate, onDelete }: Props) {
+function TasksCard({ status, title, tasks, onDrop, onCreate, onUpdate, onDelete }: Props) {
   const [open, setOpen] = React.useState(false);
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [editingId, setEditingId] = React.useState<string | null>(null);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [month, setMonth] = React.useState<Date | undefined>(new Date());
   const [value, setValue] = React.useState("");
@@ -94,15 +96,36 @@ function TasksCard({ status, title, tasks, onDrop, onCreate, onDelete }: Props) 
     status: "todo",
   });
 
-  const handleCreate = () => {
-    onCreate({
-      ...taskData,
-      id: crypto.randomUUID(),
-      status: status,
-    });
+  const openCreateDialog = () => {
+    setEditingId(null);
+    setTaskData({ id: "", title: "", task: "", person: "Gast", deadline: null, status: "todo" });
+    setValue("");
+    setDate(undefined);
+    setDialogOpen(true);
+  };
+
+  const openEditDialog = (task: Task) => {
+    setEditingId(task.id);
+    setTaskData(task);
+    setValue(formatDate(task.deadline ?? undefined));
+    setDate(task.deadline ?? undefined);
+    setDialogOpen(true);
+  };
+
+  const handleSave = () => {
+    if (editingId) {
+      onUpdate({ ...taskData, id: editingId });
+    } else {
+      onCreate({
+        ...taskData,
+        id: crypto.randomUUID(),
+        status: status,
+      });
+    }
     setTaskData({ id: "", title: "", task: "", person: "", deadline: null, status: "todo" });
     setValue("");
     setDate(undefined);
+    setDialogOpen(false);
   };
 
   const [isDragHover, setIsDragHover] = React.useState(false);
@@ -128,16 +151,18 @@ function TasksCard({ status, title, tasks, onDrop, onCreate, onDelete }: Props) 
             {title}
             <span className="text-slate-500 text-sx font-normal">{tasks.length}</span>
           </CardTitle>
-          <Dialog>
-            <DialogTrigger>
-              <Button variant="ghost">
-                <Plus />
-              </Button>
-            </DialogTrigger>
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <Button variant="ghost" onClick={openCreateDialog}>
+              <Plus />
+            </Button>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Neue Task erstellen</DialogTitle>
-                <DialogDescription>Erstelle eine neue Aufgabe für diese Spalte.</DialogDescription>
+                <DialogTitle>{editingId ? "Task bearbeiten" : "Neue Task erstellen"}</DialogTitle>
+                <DialogDescription>
+                  {editingId
+                    ? "Bearbeite die Aufgabe."
+                    : "Erstelle eine neue Aufgabe für diese Spalte."}
+                </DialogDescription>
               </DialogHeader>
               <FieldLabel htmlFor="input-field-username">Titel</FieldLabel>
               <Input
@@ -235,7 +260,7 @@ function TasksCard({ status, title, tasks, onDrop, onCreate, onDelete }: Props) 
               </InputGroup>
               <div className="flex gap-2 justify-end">
                 <DialogClose render={<Button variant="ghost" />}>Abbrechen</DialogClose>
-                <DialogClose render={<Button onClick={handleCreate} />}>Speichern</DialogClose>
+                <DialogClose render={<Button onClick={handleSave} />}>Speichern</DialogClose>
               </div>
             </DialogContent>
           </Dialog>
@@ -250,12 +275,18 @@ function TasksCard({ status, title, tasks, onDrop, onCreate, onDelete }: Props) 
             }`}>
             Hier ablegen
           </div>
+          {tasks.length === 0 && (
+            <div className="place-items-center h-full justfiy-center flex text-slate-500">
+              Keine Tasks vorhanden
+            </div>
+          )}
           {tasks.map((t) => (
             <TasksItem
               key={t.id}
               {...t}
               draggable={true}
               onDragStart={(e) => e.dataTransfer.setData("tasksId", t.id)}
+              onEdit={() => openEditDialog(t)}
               onDelete={() => onDelete(t.id)}
             />
           ))}

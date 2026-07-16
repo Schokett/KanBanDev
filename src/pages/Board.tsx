@@ -61,6 +61,18 @@ function BoardDetail() {
     });
   };
 
+  const handleUpdate = (task: Task) => {
+    setBoard((prev) => {
+      const updated = {
+        ...prev,
+        tasks: prev.tasks.map((t) => (t.id === task.id ? task : t)),
+      };
+      const boards = getBoards();
+      saveBoards(boards.map((b) => (b.id === updated.id ? updated : b)));
+      return updated;
+    });
+  };
+
   const handleDelete = (taskId: string) => {
     setBoard((prev) => {
       const updated = {
@@ -119,6 +131,7 @@ function BoardDetail() {
             tasks={board.tasks.filter((t) => t.status === "todo")}
             onDrop={handleDrop}
             onCreate={handleCreate}
+            onUpdate={handleUpdate}
             onDelete={handleDelete}
           />
           <TasksCard
@@ -127,6 +140,7 @@ function BoardDetail() {
             tasks={board.tasks.filter((t) => t.status === "inprogress")}
             onDrop={handleDrop}
             onCreate={handleCreate}
+            onUpdate={handleUpdate}
             onDelete={handleDelete}
           />
           <TasksCard
@@ -135,6 +149,7 @@ function BoardDetail() {
             tasks={board.tasks.filter((t) => t.status === "done")}
             onDrop={handleDrop}
             onCreate={handleCreate}
+            onUpdate={handleUpdate}
             onDelete={handleDelete}
           />
         </div>
