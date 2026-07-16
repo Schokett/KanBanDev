@@ -30,6 +30,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FieldLabel } from "@/components/ui/field";
+import { Textarea } from "./ui/textarea";
 
 export type Task = {
   id: string;
@@ -145,10 +146,11 @@ function TasksCard({ status, title, tasks, onDrop, onCreate, onDelete }: Props) 
                 onChange={(e) => setTaskData((prev) => ({ ...prev, title: e.target.value }))}
               />
               <FieldLabel htmlFor="input-field-username">Beschreibung</FieldLabel>
-              <Input
+              <Textarea
                 id="task-task"
                 placeholder="Was soll erledigt werden?"
                 name="task"
+                className="min-h-20"
                 value={taskData.task}
                 onChange={(e) => setTaskData((prev) => ({ ...prev, task: e.target.value }))}
               />
