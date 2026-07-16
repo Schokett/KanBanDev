@@ -102,11 +102,22 @@ function TasksCard({ status, title, tasks, onDrop, onCreate }: Props) {
     setValue("");
     setDate(undefined);
   };
+
+  const [isDragHover, setIsDragHover] = React.useState(false);
+
   return (
     <>
       <Card
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={(e) => onDrop(e.dataTransfer.getData("tasksId"), status)}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setIsDragHover(true);
+        }}
+        onDragLeave={() => setIsDragHover(false)}
+        onDrop={(e) => {
+          e.preventDefault();
+          setIsDragHover(false);
+          onDrop(e.dataTransfer.getData("tasksId"), status);
+        }}
         className="bg-transparent py-0 gap-0 mx-auto w-full max-w-xs border border-slate-500">
         <CardHeader className=" py-3 flex justify-between items-center">
           <CardTitle className="font-semibold flex gap-2">
@@ -224,12 +235,18 @@ function TasksCard({ status, title, tasks, onDrop, onCreate }: Props) {
             </DialogContent>
           </Dialog>
         </CardHeader>
-        <CardFooter className=" flex flex-col gap-2 p-2 bg-transparent border-slate-500">
+        <CardFooter className="relative flex min-h-24 flex-col gap-2 p-2 bg-transparent border-slate-500">
+          <div
+            className={`pointer-events-none absolute inset-2 z-10 flex items-center justify-center rounded-md border-2 border-dashed border-primary bg-primary/10 text-center text-primary transition-opacity ${
+              isDragHover ? "opacity-100" : "opacity-0"
+            }`}>
+            Hier ablegen
+          </div>
           {tasks.map((t) => (
             <TasksItem
               key={t.id}
               {...t}
-              draggable
+              draggable={true}
               onDragStart={(e) => e.dataTransfer.setData("tasksId", t.id)}
             />
           ))}
