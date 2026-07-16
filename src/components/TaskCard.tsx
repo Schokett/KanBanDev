@@ -236,7 +236,10 @@ function TasksCard({ status, title, tasks, onDrop, onCreate, onDelete }: Props) 
             </DialogContent>
           </Dialog>
         </CardHeader>
-        <CardFooter className="relative flex min-h-22 flex-col gap-2 p-2 bg-transparent border-slate-500">
+        <CardFooter
+          className={`relative flex flex-col gap-2 p-2 bg-transparent border-slate-500 ${
+            tasks.length === 0 ? "min-h-22" : ""
+          }`}>
           <div
             className={`pointer-events-none absolute inset-2 z-10 flex items-center justify-center rounded-md border-2 border-dashed border-primary bg-primary/10 text-center text-primary transition-opacity ${
               isDragHover ? "opacity-100" : "opacity-0"
