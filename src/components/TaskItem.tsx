@@ -1,4 +1,4 @@
-import { Calendar, CircleUserRound, Pointer } from "lucide-react";
+import { Calendar, CircleUserRound } from "lucide-react";
 import type { Task } from "./TaskCard";
 import { Button } from "@base-ui/react";
 
