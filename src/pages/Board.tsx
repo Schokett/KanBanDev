@@ -5,48 +5,28 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import TasksCard from "@/components/TaskCard";
 import type { Task } from "@/components/TaskCard";
-import { getBoards } from "@/lib/api";
 import type { Board } from "@/types/board.type";
-
-const TASKS_STORAGE_KEY = "tasks";
-
-const mockTasks: Task[] = [
-  {
-    id: "1",
-    title: "Flur",
-    task: "Wischen",
-    person: "Nutzer",
-    deadline: new Date("7.5.2011"),
-    status: "todo",
-  },
-  {
-    id: "2",
-    title: "Flur",
-    task: "Wischen",
-    person: "Nutzer",
-    deadline: new Date("8.2.2011"),
-    status: "inprogress",
-  },
-];
-
-// function loadTasks(): Task[] {
-//   const stored = localStorage.getItem(TASKS_STORAGE_KEY);
-//   if (!stored) return mockTasks;
-//   const parsed: Task[] = JSON.parse(stored);
-//   return parsed.map((t) => ({ ...t, deadline: new Date(t.deadline) }));
-// }
+import { getBoards, saveBoards } from "@/lib/api";
 
 function BoardDetail() {
   const [boardName, setBoardName] = useState("Board");
   const [previousName, setPreviousName] = useState("");
   const [isEditing, setIsEditing] = useState<Boolean>(false);
-  const [tasks, setTasks] = useState<Task[]>([]);
   const [board, setBoard] = useState<Board>({ id: "", name: "", tasks: [], columns: 3 });
   const { id } = useParams();
+
   useEffect(() => {
     const boards = getBoards();
     const currentBoard = boards.find((board) => board.id === id);
-    if (currentBoard) setBoard(currentBoard);
+    if (currentBoard) {
+      setBoard({
+        ...currentBoard,
+        tasks: currentBoard.tasks.map((t) => ({
+          ...t,
+          deadline: t.deadline ? new Date(t.deadline) : null,
+        })),
+      });
+    }
   }, []);
 
   const startEditing = () => {
@@ -60,8 +40,26 @@ function BoardDetail() {
     setIsEditing(false);
   };
 
-  const handleDrop = (id: string, status: Task["status"]) =>
-    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, status } : t)));
+  const handleDrop = (taskId: string, status: Task["status"]) => {
+    setBoard((prev) => {
+      const updated = {
+        ...prev,
+        tasks: prev.tasks.map((t) => (t.id === taskId ? { ...t, status } : t)),
+      };
+      const boards = getBoards();
+      saveBoards(boards.map((b) => (b.id === updated.id ? updated : b)));
+      return updated;
+    });
+  };
+
+  const handleCreate = (task: Task) => {
+    setBoard((prev) => {
+      const updated = { ...prev, tasks: [...prev.tasks, task] };
+      const boards = getBoards();
+      saveBoards(boards.map((b) => (b.id === updated.id ? updated : b)));
+      return updated;
+    });
+  };
 
   return (
     <div className="">
@@ -108,18 +106,21 @@ function BoardDetail() {
             title="To Do"
             tasks={board.tasks.filter((t) => t.status === "todo")}
             onDrop={handleDrop}
+            onCreate={handleCreate}
           />
           <TasksCard
             status="inprogress"
             title="In Progress"
             tasks={board.tasks.filter((t) => t.status === "inprogress")}
             onDrop={handleDrop}
+            onCreate={handleCreate}
           />
           <TasksCard
             status="done"
             title="Done"
             tasks={board.tasks.filter((t) => t.status === "done")}
             onDrop={handleDrop}
+            onCreate={handleCreate}
           />
         </div>
       </section>

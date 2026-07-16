@@ -36,7 +36,7 @@ export type Task = {
   title: string;
   task: string;
   person: string;
-  deadline: Date;
+  deadline: Date | null;
   status: "todo" | "inprogress" | "done";
 };
 
@@ -45,6 +45,7 @@ interface Props {
   title: string;
   tasks: Task[];
   onDrop: (id: string, status: Task["status"]) => void;
+  onCreate: (task: Task) => void;
 }
 type Person = {
   label: string;
@@ -69,11 +70,7 @@ function isValidDate(date: Date | undefined) {
   return !isNaN(date.getTime());
 }
 
-function handleCreate() {
-  console.log("Next Time");
-}
-
-function TasksCard({ status, title, tasks, onDrop }: Props) {
+function TasksCard({ status, title, tasks, onDrop, onCreate }: Props) {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [month, setMonth] = React.useState<Date | undefined>(new Date());
@@ -82,9 +79,29 @@ function TasksCard({ status, title, tasks, onDrop }: Props) {
   const personSelect = localStorage.getItem("username") ?? "Gast";
   const assignees: Person[] = [
     { label: "Niemand", value: "Niemand" },
-    { label: personSelect, value: personSelect },
+    { label: "Gast", value: "Gast" },
+    ...(personSelect !== "Gast" ? [{ label: personSelect, value: personSelect }] : []),
   ];
 
+  const [taskData, setTaskData] = React.useState<Task>({
+    id: "",
+    title: "",
+    task: "",
+    person: "Gast",
+    deadline: null,
+    status: "todo",
+  });
+
+  const handleCreate = () => {
+    onCreate({
+      ...taskData,
+      id: crypto.randomUUID(),
+      status: status,
+    });
+    setTaskData({ id: "", title: "", task: "", person: "", deadline: null, status: "todo" });
+    setValue("");
+    setDate(undefined);
+  };
   return (
     <>
       <Card
@@ -108,12 +125,30 @@ function TasksCard({ status, title, tasks, onDrop }: Props) {
                 <DialogDescription>Erstelle eine neue Aufgabe für diese Spalte.</DialogDescription>
               </DialogHeader>
               <FieldLabel htmlFor="input-field-username">Titel</FieldLabel>
-              <Input id="newBoard" placeholder="Board-Name" />
+              <Input
+                id="task-title"
+                placeholder="Board-Name"
+                name="title"
+                value={taskData.title}
+                onChange={(e) => setTaskData((prev) => ({ ...prev, title: e.target.value }))}
+              />
               <FieldLabel htmlFor="input-field-username">Beschreibung</FieldLabel>
-              <Input id="newBoard" placeholder="Was soll erledigt werden?" />
+              <Input
+                id="task-task"
+                placeholder="Was soll erledigt werden?"
+                name="task"
+                value={taskData.task}
+                onChange={(e) => setTaskData((prev) => ({ ...prev, task: e.target.value }))}
+              />
               <FieldLabel htmlFor="input-field-username">Zugewiesen an</FieldLabel>
-              <Select items={assignees} defaultValue={personSelect}>
-                <SelectTrigger className="w-full" id="form-board">
+              <Select
+                items={assignees}
+                value={taskData.person || personSelect}
+                onValueChange={(person) =>
+                  setTaskData((prev) => ({ ...prev, person: person ?? prev.person }))
+                }
+                defaultValue={personSelect}>
+                <SelectTrigger className="w-full" id="task-user">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -129,7 +164,7 @@ function TasksCard({ status, title, tasks, onDrop }: Props) {
               <FieldLabel htmlFor="form-board">Deadline</FieldLabel>
               <InputGroup>
                 <InputGroupInput
-                  id="date-required"
+                  id="task-date"
                   value={value}
                   placeholder={formatDate(new Date())}
                   onChange={(e) => {
@@ -174,6 +209,7 @@ function TasksCard({ status, title, tasks, onDrop }: Props) {
                         onSelect={(date) => {
                           setDate(date);
                           setValue(formatDate(date));
+                          setTaskData((prev) => ({ ...prev, deadline: date ?? null }));
                           setOpen(false);
                         }}
                       />

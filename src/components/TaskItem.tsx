@@ -1,16 +1,12 @@
 import { Calendar, CircleUserRound } from "lucide-react";
+import type { Task } from "./TaskCard";
 
-interface Task {
-  title: string;
-  task: string;
-  person: string;
-  deadline: Date;
-  status: string;
+interface Props extends Pick<Task, "title" | "task" | "person" | "deadline" | "status"> {
   draggable?: boolean;
   onDragStart?: (e: React.DragEvent<HTMLDivElement>) => void;
 }
 
-function TasksItem({ title, task, person, deadline, status, draggable, onDragStart }: Task) {
+function TasksItem({ title, task, person, deadline, status, draggable, onDragStart }: Props) {
   return (
     <>
       <div
@@ -46,7 +42,7 @@ function TasksItem({ title, task, person, deadline, status, draggable, onDragSta
           <div className="flex gap-1 text-slate-500 w-full h-auto items-center">
             <Calendar className="text-red-400 size-3" />
             <p className="text-ellipsis line-clamp-2 text-red-400">
-              {deadline.toLocaleDateString("de-DE")}
+              {deadline ? deadline.toLocaleDateString("de-DE") : "—"}
             </p>
           </div>
         </div>
