@@ -26,14 +26,24 @@ function BoardDetail() {
           deadline: t.deadline ? new Date(t.deadline) : null,
         })),
       });
+      setBoardName(currentBoard.name);
     }
   }, []);
+
+  const confirmEditing = () => {
+    setIsEditing(false);
+    setBoard((prev) => {
+      const updated = { ...prev, name: boardName };
+      const boards = getBoards();
+      saveBoards(boards.map((b) => (b.id === updated.id ? updated : b)));
+      return updated;
+    });
+  };
 
   const startEditing = () => {
     setPreviousName(boardName);
     setIsEditing(true);
   };
-  const confirmEditing = () => setIsEditing(false);
 
   const cancelEditing = () => {
     setBoardName(previousName);
