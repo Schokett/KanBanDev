@@ -75,9 +75,9 @@ function BoardOverview() {
       <div className="gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {boards.map((b) => (
           <Link key={b.id} to={`/BoardOverview/board/${b.id}`}>
-            <Card className="w-full flex-2 flex flex-row justify-between p-7 hover:shadow-md border border-slate-600">
-              <div className="w-full">
-                <CardTitle className="overflow-hidden text-ellipsis">{b.name}</CardTitle>
+            <Card className="w-full flex-2 flex flex-row justify-between  p-7 hover:shadow-md border border-slate-600">
+              <div className="w-full min-w-0">
+                <CardTitle className="overflow-hidden truncate text-ellipsis">{b.name}</CardTitle>
                 <CardDescription>
                   <span className="">{b.columns} Spalten • </span>
                   <span className="">{b.tasks.length} Tasks</span>
