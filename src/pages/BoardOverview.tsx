@@ -77,7 +77,9 @@ function BoardOverview() {
           <Link key={b.id} to={`/BoardOverview/board/${b.id}`}>
             <Card className="w-full flex-2 flex flex-row justify-between p-7 hover:shadow-md border border-slate-600">
               <div className="w-full">
-                <CardTitle>{b.name}</CardTitle>
+                <CardTitle className="overflow-hidden text-ellipsis line-clamp-2">
+                  {b.name}
+                </CardTitle>
                 <CardDescription>
                   <span className="">{b.columns} Spalten • </span>
                   <span className="">{b.tasks.length} Tasks</span>

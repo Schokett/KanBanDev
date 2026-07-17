@@ -124,7 +124,7 @@ function BoardDetail() {
           )}
         </div>
 
-        <div className="mt-5 w-full flex gap-5">
+        <div className="mt-5 w-full flex gap-5 flex-col md:flex-row">
           <TasksCard
             status="todo"
             title="To Do"
