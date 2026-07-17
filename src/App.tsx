@@ -47,7 +47,7 @@ function App() {
           </Button>
         </Link>
       </div>
-      <main className="p-4 mx-auto">
+      <main className="p-4 justify-center flex w-full">
         <Outlet />
       </main>
     </>

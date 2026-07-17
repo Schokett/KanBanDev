@@ -86,7 +86,7 @@ function BoardDetail() {
   };
 
   return (
-    <div className="">
+    <div className="w-full max-w-300">
       <section className="">
         <div className="flex gap-2  place-items-center">
           <Link to={`/boardoverview`}>
