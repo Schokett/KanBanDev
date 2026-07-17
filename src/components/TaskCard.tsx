@@ -275,7 +275,7 @@ function TasksCard({ status, title, tasks, onDrop, onCreate, onUpdate, onDelete 
             }`}>
             Hier ablegen
           </div>
-          {tasks.length === 0 && (
+          {tasks.length === 0 && !isDragHover && (
             <div className="place-items-center h-full justfiy-center flex text-slate-500">
               Keine Tasks vorhanden
             </div>
